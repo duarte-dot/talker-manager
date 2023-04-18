@@ -20,8 +20,21 @@ const writeFile = async (newTalker) => {
   };
   const newTalkers = JSON.stringify([...talkersJSON, newTalkerObj]);
   await fs.writeFile(TALKERS_DATA_PATH, newTalkers);
-  console.log('aqui oooo ', newTalkerObj);
   return newTalkerObj;
 };
 
-module.exports = { readFile, writeFile };
+const updateTalker = async (id, name, age, talk) => {
+  const { watchedAt, rate } = talk;
+  const talkers = await readFile();
+  const updatedTalker = {
+    ...talkers.find((t) => t.id === Number(id)),
+    name,
+    age,
+    talk: { watchedAt, rate },
+  };
+  const updatedTalkers = talkers.map((t) => (t.id === updatedTalker.id ? updatedTalker : t));
+  await fs.writeFile(TALKERS_DATA_PATH, JSON.stringify(updatedTalkers, null, 2, 'utf-8'));
+  return { id: +id, name, age, talk };
+};
+
+module.exports = { readFile, writeFile, updateTalker };

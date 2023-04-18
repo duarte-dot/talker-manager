@@ -1,5 +1,5 @@
 const express = require('express');
-const { readFile, writeFile } = require('./fsUtils');
+const { readFile, writeFile, updateTalker } = require('./fsUtils');
 const { checkToken, 
   checkAge,
   checkName,
@@ -7,7 +7,9 @@ const { checkToken,
   checkTalk,
   checkWatchedAt, 
   checkEmail,
-  checkPassword } = require('./middlewares');
+  checkPassword, 
+  checkTalkerExistence,
+ } = require('./middlewares');
 
 const app = express();
 
@@ -57,8 +59,19 @@ app.post('/talker',
   checkTalk, checkWatchedAt, checkRate, 
 async (req, res) => {
   const newTalkerObj = await writeFile(req.body);
-  console.log(newTalkerObj);
   return res.status(201).json(newTalkerObj);
+});
+
+app.put('/talker/:id',
+  checkToken, checkName, checkAge, 
+  checkTalk, checkWatchedAt, checkRate, 
+  checkTalkerExistence,
+async (req, res) => {
+    const { id } = req.params;
+    const { name, age, talk } = req.body;
+    const updatedTalker = await updateTalker(id, name, age, talk);
+    console.log('body', req.body);
+    return res.status(200).json(updatedTalker);
 });
 
 app.use((error, _req, res, _next) => res.status(error.status).json({ message: error.message }));

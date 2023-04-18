@@ -1,3 +1,5 @@
+const { readFile, writeFile } = require('./fsUtils');
+
 const checkToken = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
@@ -91,6 +93,23 @@ const checkPassword = (req, res, next) => {
   next();
 };
 
+const checkTalkerExistence = async (req, res, next) => {
+  const talkers = await readFile();
+  const talker = talkers.find((t) => t.id === Number(req.params.id));
+  if (!talker) {
+    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
+  return next();
+};
+
 module.exports = {
-  checkToken, checkName, checkAge, checkTalk, checkWatchedAt, checkRate, checkEmail, checkPassword,
+  checkToken, 
+  checkName,
+  checkAge,
+  checkTalk,
+  checkWatchedAt,
+  checkRate,
+  checkEmail,
+  checkPassword,
+  checkTalkerExistence,
 };
