@@ -33,8 +33,16 @@ const updateTalker = async (id, name, age, talk) => {
     talk: { watchedAt, rate },
   };
   const updatedTalkers = talkers.map((t) => (t.id === updatedTalker.id ? updatedTalker : t));
-  await fs.writeFile(TALKERS_DATA_PATH, JSON.stringify(updatedTalkers, null, 2, 'utf-8'));
+  await fs.writeFile(TALKERS_DATA_PATH, JSON.stringify(updatedTalkers, 'utf-8'));
   return { id: +id, name, age, talk };
 };
 
-module.exports = { readFile, writeFile, updateTalker };
+const deleteTalker = async (id) => {
+  const data = await readFile();
+  const findTalker = data.find((talker) => talker.id === Number(id));
+  const newData = data.filter((talker) => talker !== findTalker);
+  const updatedData = newData.map((talker) => ({ ...talker, id: talker.id - 1 }));
+  await fs.writeFile(TALKERS_DATA_PATH, JSON.stringify(updatedData, 'utf-8'));
+};
+
+module.exports = { readFile, writeFile, updateTalker, deleteTalker };

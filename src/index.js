@@ -1,5 +1,5 @@
 const express = require('express');
-const { readFile, writeFile, updateTalker } = require('./fsUtils');
+const { readFile, writeFile, updateTalker, deleteTalker } = require('./fsUtils');
 const { checkToken, 
   checkAge,
   checkName,
@@ -72,6 +72,12 @@ async (req, res) => {
     const updatedTalker = await updateTalker(id, name, age, talk);
     console.log('body', req.body);
     return res.status(200).json(updatedTalker);
+});
+
+app.delete('/talker/:id', checkToken, async (req, res) => {
+  const { id } = req.params;
+  const newData = await deleteTalker(id);
+  return res.status(204).send(newData);
 });
 
 app.use((error, _req, res, _next) => res.status(error.status).json({ message: error.message }));

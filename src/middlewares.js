@@ -1,4 +1,4 @@
-const { readFile, writeFile } = require('./fsUtils');
+const { readFile } = require('./fsUtils');
 
 const checkToken = (req, res, next) => {
   const token = req.headers.authorization;
