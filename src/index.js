@@ -31,6 +31,23 @@ app.get('/talker/:id', async (req, res) => {
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
+  const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/
+
+  if (!email) {
+    return res.status(400).json({message: "O campo \"email\" é obrigatório"})
+  }
+
+  if (!regexEmail.test(email)) {
+    return res.status(400).json({message: "O \"email\" deve ter o formato \"email@email.com\""})
+  }
+
+  if (!password) {
+    return res.status(400).json({message: "O campo \"password\" é obrigatório"})
+  }
+
+  if (password.length <= 6) {
+    return res.status(400).json({message: "O \"password\" deve ter pelo menos 6 caracteres"})
+  }
 
   let token = '';
 
@@ -42,9 +59,10 @@ app.post('/login', (req, res) => {
     const randomIndex = Math.floor(Math.random() * characters.length);
     token += characters[randomIndex];
   }
-  
+
   return res.status(200).json({ token });
 });
+
 
 const HTTP_OK_STATUS = 200;
 const PORT = process.env.PORT || '3001';
