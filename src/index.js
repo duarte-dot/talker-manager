@@ -5,8 +5,27 @@ const app = express();
 app.use(express.json());
 
 app.get('/talker', async (req, res) => {
-  const talker = await readFile();
-  return res.status(200).json(talker);
+  const talkers = await readFile();
+  return res.status(200).json(talkers);
+})
+
+app.get('/talker/:id', async (req, res) => {
+  try{
+  const talkers = await readFile();
+
+  const talkerFound = talkers.find(
+    (talker) => talker.id === Number(req.params.id),
+  );
+
+  if (!talkerFound) {
+    return res.status(404).json({ message: "Pessoa palestrante não encontrada"})
+  }
+
+  return res.status(200).json(talkerFound);
+
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 const HTTP_OK_STATUS = 200;
