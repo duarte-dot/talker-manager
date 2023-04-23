@@ -45,4 +45,28 @@ const deleteTalker = async (id) => {
   await fs.writeFile(TALKERS_DATA_PATH, JSON.stringify(updatedData, 'utf-8'));
 };
 
-module.exports = { readFile, writeFile, updateTalker, deleteTalker };
+const checkRate2 = (rate) => {
+  const rateNumbered = Number(rate);
+  return Number.isInteger(rateNumbered) && rateNumbered >= 1 && rateNumbered <= 5;
+};
+
+const search = async (q, rate, data) => {
+  let result = data;
+  switch (true) {
+    case Boolean(q && rate):
+      result = data.filter((talker) => talker.name.includes(q)
+        && talker.talk.rate === Number(rate));
+      break;
+    case Boolean(q):
+      result = data.filter((talker) => talker.name.includes(q));
+      break;
+    case Boolean(rate):
+      result = data.filter(({ talk }) => talk.rate === Number(rate));
+      break;
+    default:
+      break;
+  }
+  return result;
+};
+
+module.exports = { readFile, writeFile, updateTalker, deleteTalker, checkRate2, search };

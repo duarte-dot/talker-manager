@@ -1,5 +1,10 @@
 const express = require('express');
-const { readFile, writeFile, updateTalker, deleteTalker } = require('./fsUtils');
+const { readFile, 
+  writeFile, 
+  updateTalker, 
+  deleteTalker, 
+  search, 
+  checkRate2 } = require('./fsUtils');
 const { checkToken, 
   checkAge,
   checkName,
@@ -21,18 +26,17 @@ app.get('/talker', async (req, res) => {
 });
 
 app.get('/talker/search', checkToken, async (req, res) => {
-  try {
-    const { q } = req.query;
+    const { q, rate } = req.query;
 
-    const allTalkers = await readFile();
-
-    if (!q) {
-      return res.status(200).json(allTalkers);
+    if (rate && !checkRate2(rate)) {
+      return res.status(400).json({
+        message: 'O campo "rate" deve ser um número inteiro entre 1 e 5',
+      });
     }
 
-    const selectedTalkers = allTalkers.filter(
-      (talker) => talker.name.toLowerCase().includes(q.toLocaleLowerCase()),
-    );
+    try {
+    const allTalkers = await readFile();
+    const selectedTalkers = await search(q, rate, allTalkers);
     return res.status(200).json(selectedTalkers);
   } catch (e) {
     return res.status(500).json({ message: e.message });
