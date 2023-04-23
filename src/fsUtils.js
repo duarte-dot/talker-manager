@@ -51,22 +51,18 @@ const checkRate2 = (rate) => {
 };
 
 const search = async (q, rate, data) => {
-  let result = data;
-  switch (true) {
-    case Boolean(q && rate):
-      result = data.filter((talker) => talker.name.includes(q)
-        && talker.talk.rate === Number(rate));
-      break;
-    case Boolean(q):
-      result = data.filter((talker) => talker.name.includes(q));
-      break;
-    case Boolean(rate):
-      result = data.filter(({ talk }) => talk.rate === Number(rate));
-      break;
-    default:
-      break;
+  let filteredData = data;
+  if (q) {
+    filteredData = filteredData.filter(({ name }) =>
+      name.toLowerCase().includes(q.toLowerCase()));
   }
-  return result;
+  if (rate) {
+    filteredData = filteredData.filter(({ talk }) => {
+      const rateNumber = Number(talk.rate);
+      return rateNumber && rateNumber === Number(rate);
+    });
+  }
+  return filteredData;
 };
 
 module.exports = { readFile, writeFile, updateTalker, deleteTalker, checkRate2, search };
