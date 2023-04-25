@@ -1,4 +1,4 @@
-const { readFile, TALKERS_DATA_PATH } = require('../fsUtils');
+const { readFile, TALKERS_DATA_PATH } = require('../utils/fsUtils');
 
 const checkTalker = async (req, res, next) => {
   const talkers = await readFile(TALKERS_DATA_PATH);

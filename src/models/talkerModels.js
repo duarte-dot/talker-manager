@@ -1,4 +1,4 @@
-const { readFile, TALKERS_DATA_PATH, writeFile } = require('../fsUtils');
+const { readFile, TALKERS_DATA_PATH, writeFile } = require('../utils/fsUtils');
 const conn = require('./db/connection');
 
 const readTalkers = async () => {

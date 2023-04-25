@@ -1,4 +1,4 @@
-const helpers = require('../helpers');
+const helpers = require('../utils/helpers');
 
 const generateToken = () => {
   const token = helpers.tokenGenerator();
