@@ -7,7 +7,7 @@ O objetivo do projeto é criar uma API para gerenciar palestrantes, permitindo o
 <ul>
   <li>uma API de um CRUD (Create, Read, Update e Delete) de palestrantes (talkers);</li>
   <li>alguns endpoints que irão ler e escrever em um arquivo utilizando o módulo fs;</li>
-  <li>foi aplicado o modelo de arquitetura de software MSC (Model, Service, Controller)</li>
+  <li>foi aplicado o modelo de arquitetura de software MSC (Model, Service, Controller);</li>
 </ul>
 
 ## Tecnologias utilizadas
