@@ -1,6 +1,6 @@
 # Talker Manager
 
-O objetivo do projeto é criar uma API para gerenciar palestrantes, permitindo o cadastro, visualização, pesquisa, edição e exclusão de informações. A aplicação utiliza os conceitos de CRUD (Create, Read, Update e Delete) para realizar as operações em um banco de dados MySQL.
+Uma API para gerenciar palestrantes, permitindo o cadastro, visualização, pesquisa, edição e exclusão de informações. A aplicação utiliza os conceitos de CRUD (Create, Read, Update e Delete) para realizar as operações em um banco de dados MySQL.
 
 ## O que foi desenvolvido:
 
